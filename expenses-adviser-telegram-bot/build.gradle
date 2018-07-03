@@ -1,0 +1,14 @@
+group 'org.isegodin'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-web', version: '5.0.7.RELEASE'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.0'
+}

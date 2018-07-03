@@ -1,0 +1,3 @@
+rootProject.name = 'expenses-adviser'
+include 'expenses-adviser-service'
+include 'expenses-adviser-telegram-bot'
