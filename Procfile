@@ -1,0 +1,1 @@
+web: java -Dtelegram.token=$TOKEN -jar build/expenses-adviser-telegram-bot.jar

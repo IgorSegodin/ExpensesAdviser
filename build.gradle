@@ -12,3 +12,9 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+task stage(type: Copy, dependsOn: [clean, ':expenses-adviser-telegram-bot:clean', ':expenses-adviser-telegram-bot:build']) {
+    from new File(project.rootDir, "expenses-adviser-telegram-bot/build/libs/")
+    into project.buildDir
+}
+stage.mustRunAfter(':expenses-adviser-telegram-bot:clean')
