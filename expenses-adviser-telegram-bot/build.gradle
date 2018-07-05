@@ -7,8 +7,13 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework', name: 'spring-web', version: '5.0.7.RELEASE'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6'
+    compile group: 'org.springframework', name: 'spring-web', version: "$springVersion"
+    compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonVersion"
 
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.0'
+
+    compile group: 'ch.qos.logback', name: 'logback-core', version: "$logbackVersion"
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
 }

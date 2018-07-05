@@ -1,10 +1,10 @@
-package org.isegodin.expenses.adviser.telegram.service.impl;
+package org.isegodin.expenses.adviser.telegram.bot.service.impl;
 
-import org.isegodin.expenses.adviser.telegram.data.dto.MessageDto;
-import org.isegodin.expenses.adviser.telegram.data.request.MessageRequest;
-import org.isegodin.expenses.adviser.telegram.data.request.UpdateRequest;
-import org.isegodin.expenses.adviser.telegram.data.response.UpdateResponse;
-import org.isegodin.expenses.adviser.telegram.service.TelegramService;
+import org.isegodin.expenses.adviser.telegram.bot.data.dto.MessageDto;
+import org.isegodin.expenses.adviser.telegram.bot.data.request.MessageRequest;
+import org.isegodin.expenses.adviser.telegram.bot.data.request.UpdateRequest;
+import org.isegodin.expenses.adviser.telegram.bot.data.response.UpdateResponse;
+import org.isegodin.expenses.adviser.telegram.bot.service.TelegramService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

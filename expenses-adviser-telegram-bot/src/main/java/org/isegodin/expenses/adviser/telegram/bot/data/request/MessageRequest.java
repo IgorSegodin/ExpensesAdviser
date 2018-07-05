@@ -1,4 +1,4 @@
-package org.isegodin.expenses.adviser.telegram.data.request;
+package org.isegodin.expenses.adviser.telegram.bot.data.request;
 
 import lombok.Builder;
 import lombok.Data;

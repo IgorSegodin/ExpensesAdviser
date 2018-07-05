@@ -1,4 +1,4 @@
-package org.isegodin.expenses.adviser.telegram.data.dto;
+package org.isegodin.expenses.adviser.telegram.bot.data.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
