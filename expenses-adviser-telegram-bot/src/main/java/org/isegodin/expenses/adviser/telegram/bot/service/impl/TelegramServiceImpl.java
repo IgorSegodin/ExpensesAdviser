@@ -5,9 +5,12 @@ import org.isegodin.expenses.adviser.telegram.bot.data.request.MessageRequest;
 import org.isegodin.expenses.adviser.telegram.bot.data.request.UpdateRequest;
 import org.isegodin.expenses.adviser.telegram.bot.data.response.UpdateResponse;
 import org.isegodin.expenses.adviser.telegram.bot.service.TelegramService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +21,7 @@ import java.net.URI;
 /**
  * @author isegodin
  */
+@Component
 public class TelegramServiceImpl implements TelegramService {
 
     private static final String API_URL = "https://api.telegram.org";
@@ -25,7 +29,8 @@ public class TelegramServiceImpl implements TelegramService {
     private final String token;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public TelegramServiceImpl(String token) {
+    @Autowired
+    public TelegramServiceImpl(@Value("${telegram.token}") String token) {
         this.token = token;
     }
 

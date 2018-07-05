@@ -1,0 +1,5 @@
+Done: liquibase, spring data, hibernate, hikaricp
+
+save all incoming updates to database
+
+status rest (Undertow)

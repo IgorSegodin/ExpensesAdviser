@@ -4,6 +4,9 @@ import org.isegodin.expenses.adviser.telegram.bot.data.dto.UpdateDto;
 import org.isegodin.expenses.adviser.telegram.bot.data.request.UpdateRequest;
 import org.isegodin.expenses.adviser.telegram.bot.data.response.UpdateResponse;
 import org.isegodin.expenses.adviser.telegram.bot.service.TelegramService;
+import org.isegodin.expenses.adviser.telegram.data.dto.UpdateEventDto;
+import org.isegodin.expenses.adviser.telegram.service.JsonService;
+import org.isegodin.expenses.adviser.telegram.service.UpdateEventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +28,15 @@ public class TelegramUpdateListener {
 
     private final TelegramService telegramService;
 
+    private final UpdateEventService updateEventService;
+
+    private final JsonService jsonService;
+
     @Autowired
-    public TelegramUpdateListener(TelegramService telegramService) {
+    public TelegramUpdateListener(TelegramService telegramService, UpdateEventService updateEventService, JsonService jsonService) {
         this.telegramService = telegramService;
+        this.updateEventService = updateEventService;
+        this.jsonService = jsonService;
     }
 
     @PostConstruct
@@ -63,6 +72,14 @@ public class TelegramUpdateListener {
             for (UpdateDto update : updates) {
                 logger.info("Update: {}", update);
                 String text = update.getMessage().getText();
+
+                UpdateEventDto event = new UpdateEventDto();
+                event.setId(update.getUpdate_id());
+                event.setRawUpdate(jsonService.toJson(update));
+
+                UpdateEventDto saved = updateEventService.save(event);
+
+                UpdateEventDto loaded = updateEventService.get(event.getId());
 
                 if (text == null || text.isEmpty()) {
                     continue;

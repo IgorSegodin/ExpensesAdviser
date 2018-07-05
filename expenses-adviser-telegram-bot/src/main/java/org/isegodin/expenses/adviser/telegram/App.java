@@ -6,6 +6,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author isegodin
@@ -15,6 +17,8 @@ import org.springframework.context.annotation.PropertySources;
 @PropertySources({
         @PropertySource("org/isegodin/expenses/adviser/telegram/telegram-bot.properties")
 })
+@EnableJpaRepositories
+@EnableTransactionManagement
 public class App {
 
     private static ApplicationContext context;

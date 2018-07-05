@@ -1,1 +1,1 @@
-web: java -Dtelegram.token=$TOKEN -jar build/expenses-adviser-telegram-bot.jar
+web: java -Dtelegram.token=$TOKEN -Ddatabase.url=$DATABASE_URL -jar build/expenses-adviser-telegram-bot.jar

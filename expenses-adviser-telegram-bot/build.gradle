@@ -7,11 +7,20 @@ repositories {
 }
 
 dependencies {
+    /* General application dependencies */
     compile group: 'org.springframework', name: 'spring-web', version: "$springVersion"
     compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonVersion"
 
+    /* Database related dependencies */
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
+    compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
+    compile group: 'com.vladmihalcea', name: 'hibernate-types-52', version: "$hibernateTypesVersion"
+    compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
+    compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
+    compile group: 'org.liquibase', name: 'liquibase-core', version: "$liquibaseVersion"
 
+    /* Other dependencies */
     compile group: 'ch.qos.logback', name: 'logback-core', version: "$logbackVersion"
     compile "ch.qos.logback:logback-classic:$logbackVersion"
 
