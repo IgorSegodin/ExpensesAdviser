@@ -10,4 +10,6 @@ public interface UpdateEventService {
     UpdateEventDto save(UpdateEventDto dto);
 
     UpdateEventDto get(long id);
+
+    boolean isExists(Long id);
 }

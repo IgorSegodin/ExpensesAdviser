@@ -20,6 +20,14 @@
             <column name="raw_update" type="json">
                 <constraints nullable="false"/>
             </column>
+            <column name="status" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="error_description" type="text"/>
+            <column name="event_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="telegram_user_id" type="bigint"/>
         </createTable>
     </changeSet>
 

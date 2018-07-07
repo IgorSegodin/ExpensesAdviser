@@ -1,6 +1,7 @@
 package org.isegodin.expenses.adviser.telegram.listener;
 
 import org.isegodin.expenses.adviser.telegram.bot.data.dto.UpdateDto;
+import org.isegodin.expenses.adviser.telegram.bot.data.dto.UserDto;
 import org.isegodin.expenses.adviser.telegram.bot.data.request.UpdateRequest;
 import org.isegodin.expenses.adviser.telegram.bot.data.response.UpdateResponse;
 import org.isegodin.expenses.adviser.telegram.bot.service.TelegramService;
@@ -45,6 +46,15 @@ public class TelegramUpdateListener {
         timer.schedule(new UpdatePollingTask(), 0, TimeUnit.SECONDS.toMillis(2));
     }
 
+    private Long extractUserId(UpdateDto update) {
+        if (update.getMessage() == null) {
+            return null;
+        }
+        UserDto user = update.getMessage().getFrom();
+
+        return user != null ? user.getId() : null;
+    }
+
     private class UpdatePollingTask extends TimerTask {
 
         private volatile Long offset;
@@ -63,52 +73,24 @@ public class TelegramUpdateListener {
                 offset = response.getResult().get(updates.size() - 1).getUpdate_id() + 1;
             }
 
-            if (!updates.isEmpty()) {
-                System.out.println(response);
-            }
-
-//            boolean exit = false;
-
             for (UpdateDto update : updates) {
-                logger.info("Update: {}", update);
-                String text = update.getMessage().getText();
+                try {
 
-                UpdateEventDto event = new UpdateEventDto();
-                event.setId(update.getUpdate_id());
-                event.setRawUpdate(jsonService.toJson(update));
+                    if (updateEventService.isExists(update.getUpdate_id())) {
+                        logger.info("Update was already saved: {}", update);
+                        continue;
+                    }
+                    UpdateEventDto event = new UpdateEventDto();
+                    event.setId(update.getUpdate_id());
+                    event.setRawUpdate(jsonService.toJson(update));
+                    event.setTelegramUserId(extractUserId(update));
 
-                UpdateEventDto saved = updateEventService.save(event);
-
-                UpdateEventDto loaded = updateEventService.get(event.getId());
-
-                if (text == null || text.isEmpty()) {
-                    continue;
+                    updateEventService.save(event);
+                    logger.info("Update saved: {}", update);
+                } catch (Exception e) {
+                    logger.warn("Can not process update: " + update, e);
                 }
-
-//                Long chatId = update.getMessage().getChat().getId();
-
-                // MessageDto msg = service.sendMessage(MessageRequest.builder().chat_id(chatId).text("Echo: " + text).build());
-//                    System.out.println("Message: " + text);
-
-//                if (text.equalsIgnoreCase("/die")) {
-//                    telegramService.getUpdates(
-//                            UpdateRequest.builder()
-//                                    .offset(offset)
-//                                    .limit(0)
-//                                    .build()
-//                    );
-//                    offset++;
-//                    cancel();
-//                    exit = true;
-//                } else {
-////                    MessageDto msg = service.sendMessage(MessageRequest.builder().chat_id(chatId).text("Echo: " + text).build());
-//                    System.out.println("Message: " + text);
-//                }
             }
-
-//            if (exit) {
-//                System.exit(0);
-//            }
         }
     }
 }

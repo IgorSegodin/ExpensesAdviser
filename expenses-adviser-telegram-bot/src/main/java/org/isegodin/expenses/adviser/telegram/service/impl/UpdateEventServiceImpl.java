@@ -27,7 +27,11 @@ public class UpdateEventServiceImpl implements UpdateEventService {
         UpdateEvent domain = new UpdateEvent();
         domain.setId(dto.getId());
         domain.setRawUpdate(dto.getRawUpdate());
-        UpdateEvent save = updateEventRepository.save(domain);
+        domain.setStatus(dto.getStatus());
+        domain.setErrorDescription(dto.getErrorDescription());
+        domain.setEventDate(dto.getEventDate());
+        domain.setTelegramUserId(dto.getTelegramUserId());
+        updateEventRepository.save(domain);
         return dto;
     }
 
@@ -39,6 +43,16 @@ public class UpdateEventServiceImpl implements UpdateEventService {
         UpdateEventDto dto = new UpdateEventDto();
         dto.setId(domain.getId());
         dto.setRawUpdate(domain.getRawUpdate());
+        dto.setStatus(domain.getStatus());
+        dto.setErrorDescription(domain.getErrorDescription());
+        dto.setEventDate(domain.getEventDate());
+        dto.setTelegramUserId(domain.getTelegramUserId());
         return dto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isExists(Long id) {
+        return updateEventRepository.existsById(id);
     }
 }
