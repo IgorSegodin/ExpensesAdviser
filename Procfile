@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -Dtelegram.token=$TOKEN -Ddatabase.url=$DATABASE_URL -jar build/expenses-adviser-telegram-bot.jar
+web: bash "$START_SCRIPT"

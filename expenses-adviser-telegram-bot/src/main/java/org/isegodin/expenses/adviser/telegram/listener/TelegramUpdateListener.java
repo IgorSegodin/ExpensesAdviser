@@ -1,5 +1,8 @@
 package org.isegodin.expenses.adviser.telegram.listener;
 
+import org.isegodin.expenses.adviser.backend.api.UserServiceApi;
+import org.isegodin.expenses.adviser.backend.api.dto.UserRequest;
+import org.isegodin.expenses.adviser.backend.api.dto.UserResponse;
 import org.isegodin.expenses.adviser.telegram.bot.data.dto.UpdateDto;
 import org.isegodin.expenses.adviser.telegram.bot.data.dto.UserDto;
 import org.isegodin.expenses.adviser.telegram.bot.data.request.UpdateRequest;
@@ -32,6 +35,9 @@ public class TelegramUpdateListener {
     private final UpdateEventService updateEventService;
 
     private final JsonService jsonService;
+
+    @Autowired
+    private UserServiceApi userServiceApi;
 
     @Autowired
     public TelegramUpdateListener(TelegramService telegramService, UpdateEventService updateEventService, JsonService jsonService) {
@@ -75,7 +81,6 @@ public class TelegramUpdateListener {
 
             for (UpdateDto update : updates) {
                 try {
-
                     if (updateEventService.isExists(update.getUpdate_id())) {
                         logger.info("Update was already saved: {}", update);
                         continue;
@@ -87,6 +92,15 @@ public class TelegramUpdateListener {
 
                     updateEventService.save(event);
                     logger.info("Update saved: {}", update);
+
+                    UserDto user = update.getMessage().getFrom();
+
+                    UserRequest userRequest = new UserRequest();
+                    userRequest.setFirstName(user.getFirst_name());
+                    userRequest.setLastName(user.getLast_name());
+                    UserResponse userResponse = userServiceApi.createUser(userRequest);
+                    logger.info("User created: {}", userResponse);
+
                 } catch (Exception e) {
                     logger.warn("Can not process update: " + update, e);
                 }

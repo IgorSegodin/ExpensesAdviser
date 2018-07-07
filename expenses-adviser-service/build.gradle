@@ -1,7 +1,0 @@
-group 'org.isegodin.expenses-adviser.service'
-
-apply plugin: 'java'
-
-repositories {
-    mavenCentral()
-}

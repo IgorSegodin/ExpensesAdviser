@@ -1,0 +1,12 @@
+group 'org.isegodin'
+
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly group: 'org.springframework', name: 'spring-web', version: "$springVersion"
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
+}

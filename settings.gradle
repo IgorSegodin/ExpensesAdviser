@@ -1,3 +1,4 @@
 rootProject.name = 'expenses-adviser'
-include 'expenses-adviser-service'
+include 'expenses-adviser-backend'
+include 'expenses-adviser-backend-api'
 include 'expenses-adviser-telegram-bot'

@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /**
  * @author isegodin
  */
-@Configuration
 @ComponentScan({"org.isegodin.expenses.adviser.telegram"})
 @PropertySources({
         @PropertySource("org/isegodin/expenses/adviser/telegram/telegram-bot.properties")
@@ -26,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableJpaRepositories
 @EnableTransactionManagement
 @EnableWebMvc
-public class App {
+public class TelegramApp {
 
     @SneakyThrows
     public static void main(String[] args) {
@@ -38,7 +37,7 @@ public class App {
         context.getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, webCtx);
 
         webCtx.setServletContext(context.getServletContext());
-        webCtx.register(App.class);
+        webCtx.register(TelegramApp.class);
         webCtx.refresh();
 
         context.addServlet(new ServletHolder(new DispatcherServlet(webCtx)), "/*");

@@ -3,3 +3,5 @@ Done: liquibase, spring data, hibernate, hikaricp
 Done: save all incoming updates to database
 
 Done: status rest (Jetty)
+
+Expenses service
