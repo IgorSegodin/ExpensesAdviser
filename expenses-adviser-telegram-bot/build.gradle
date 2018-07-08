@@ -1,6 +1,16 @@
 group 'org.isegodin'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
 
 repositories {
     mavenCentral()
@@ -10,37 +20,17 @@ dependencies {
 
     compile project(":expenses-adviser-backend-api")
 
-    /* General application dependencies */
-    compile group: 'org.springframework', name: 'spring-web', version: "$springVersion"
-    compile group: 'org.springframework', name: 'spring-webmvc', version: "$springVersion"
-    compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
-    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: "$jettyVersion"
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: "$jacksonVersion"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: "$springBootVersion"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "$springBootVersion"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: "$springBootVersion"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: "$springBootVersion"
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: "$springBootVersion"
 
-    /* Database related dependencies */
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
-    compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
     compile group: 'com.vladmihalcea', name: 'hibernate-types-52', version: "$hibernateTypesVersion"
-    compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0")
+
     compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
     compile group: 'org.liquibase', name: 'liquibase-core', version: "$liquibaseVersion"
 
-    /* Other dependencies */
-    compile group: 'ch.qos.logback', name: 'logback-core', version: "$logbackVersion"
-    compile "ch.qos.logback:logback-classic:$logbackVersion"
-
     compileOnly group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
-}
-
-jar {
-    doFirst {
-        from {
-            configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-        }
-        exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
-    }
-
-    manifest {
-        attributes 'Main-Class': 'org.isegodin.expenses.adviser.telegram.TelegramApp'
-    }
 }

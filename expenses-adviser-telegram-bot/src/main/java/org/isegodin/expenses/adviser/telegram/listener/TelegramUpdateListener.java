@@ -1,6 +1,9 @@
 package org.isegodin.expenses.adviser.telegram.listener;
 
+import org.isegodin.expenses.adviser.backend.api.PaymentServiceApi;
 import org.isegodin.expenses.adviser.backend.api.UserServiceApi;
+import org.isegodin.expenses.adviser.backend.api.dto.PaymentRequest;
+import org.isegodin.expenses.adviser.backend.api.dto.PaymentResponse;
 import org.isegodin.expenses.adviser.backend.api.dto.UserRequest;
 import org.isegodin.expenses.adviser.backend.api.dto.UserResponse;
 import org.isegodin.expenses.adviser.telegram.bot.data.dto.UpdateDto;
@@ -38,6 +41,9 @@ public class TelegramUpdateListener {
 
     @Autowired
     private UserServiceApi userServiceApi;
+
+    @Autowired
+    private PaymentServiceApi paymentServiceApi;
 
     @Autowired
     public TelegramUpdateListener(TelegramService telegramService, UpdateEventService updateEventService, JsonService jsonService) {
@@ -100,7 +106,14 @@ public class TelegramUpdateListener {
                     userRequest.setLastName(user.getLast_name());
                     UserResponse userResponse = userServiceApi.createUser(userRequest);
                     logger.info("User created: {}", userResponse);
+                    PaymentRequest paymentRequest = new PaymentRequest();
+                    paymentRequest.setValue(100);
+                    paymentRequest.setUserId(userResponse.getId());
+                    paymentServiceApi.createPayment(paymentRequest);
 
+                    List<PaymentResponse> paymentResponses = paymentServiceApi.listUserPayments(userResponse.getId());
+
+                    logger.info("Payments created: {}", paymentResponses.size());
                 } catch (Exception e) {
                     logger.warn("Can not process update: " + update, e);
                 }

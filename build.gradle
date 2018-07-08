@@ -9,8 +9,12 @@ repositories {
     mavenCentral()
 }
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+subprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
 }
 
 task buildBot(type: Copy, dependsOn: [clean, ':expenses-adviser-telegram-bot:clean', ':expenses-adviser-telegram-bot:build']) {

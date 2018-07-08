@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-java -Dserver.port=$PORT -Dexpenses-adviser.backend.url=$BACKEND_URL -Dtelegram.token=$TOKEN -Ddatabase.url=$DATABASE_URL -jar build/expenses-adviser-telegram-bot.jar
+java -Dserver.port=$PORT -Dexpenses-adviser.backend.url=$BACKEND_URL -Dtelegram.token=$TOKEN -Dspring.datasource.url=$JDBC_DATABASE_URL -Dspring.datasource.username=$JDBC_DATABASE_USERNAME -Dspring.datasource.password=$JDBC_DATABASE_PASSWORD -jar build/expenses-adviser-telegram-bot.jar

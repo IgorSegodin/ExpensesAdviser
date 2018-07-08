@@ -25,6 +25,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: "$springBootVersion"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-logging', version: "$springBootVersion"
 
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0")
+
     compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
     compile group: 'org.liquibase', name: 'liquibase-core', version: "$liquibaseVersion"
 
