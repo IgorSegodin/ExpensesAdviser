@@ -21,6 +21,11 @@ public enum UpdateEventStatus {
     PROCESSED,
 
     /**
+     * Unknown message format, has no processor
+     */
+    UNKNOWN,
+
+    /**
      * Error occurred while processing. Details should be store in errorDescription field.
      */
     ERROR;

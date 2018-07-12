@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd"
+        logicalFilePath="update2018-07-11_add_user_link.xml">
+
+    <changeSet id="update2018-07-11_add_user_link_01" author="i.segodin" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_link"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_link">
+            <column name="telegram_user_id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="backend_user_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(255)"/>
+            <column name="language_code" type="varchar(100)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
