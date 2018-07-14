@@ -1,20 +1,28 @@
 package org.isegodin.expenses.adviser.backend.controller;
 
 import org.isegodin.expenses.adviser.backend.api.PaymentServiceApi;
+import org.isegodin.expenses.adviser.backend.api.dto.PageData;
+import org.isegodin.expenses.adviser.backend.api.dto.PageResponse;
+import org.isegodin.expenses.adviser.backend.api.dto.PaymentFilterRequest;
 import org.isegodin.expenses.adviser.backend.api.dto.PaymentRequest;
 import org.isegodin.expenses.adviser.backend.api.dto.PaymentResponse;
 import org.isegodin.expenses.adviser.backend.data.dto.IdentifierDto;
 import org.isegodin.expenses.adviser.backend.data.dto.PaymentDto;
+import org.isegodin.expenses.adviser.backend.data.filter.PaymentFilter;
 import org.isegodin.expenses.adviser.backend.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ValidationException;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -57,10 +65,25 @@ public class PaymentController implements PaymentServiceApi {
 
     @Override
     @PostMapping("/filter")
-    public List<PaymentResponse> listUserPayments(@RequestBody UUID userId) {
-        List<PaymentDto> list = paymentService.listUserPayments(userId);
+    public PageResponse<PaymentResponse> listPayments(@RequestBody PaymentFilterRequest request) {
+        PageData pageData = Optional.ofNullable(request.getPageData()).orElse(new PageData(1, 20, "date"));
+        PageRequest pageRequest = PageRequest.of(
+                pageData.getPage(),
+                pageData.getSize(),
+                new Sort(pageData.isAsc() ? Sort.Direction.ASC : Sort.Direction.DESC,
+                        pageData.getSortField()
+                )
+        );
 
-        return list.stream().map(dto -> {
+        PaymentFilter filter = PaymentFilter.builder()
+                .dateFrom(request.getDateFrom())
+                .dateTo(request.getDateTo())
+                .userId(request.getUserId())
+                .build();
+
+        Page<PaymentDto> page = paymentService.listPayments(filter, pageRequest);
+
+        List<PaymentResponse> result = page.stream().map(dto -> {
             PaymentResponse response = new PaymentResponse();
             response.setId(dto.getId());
             response.setValue(dto.getValue());
@@ -70,5 +93,23 @@ public class PaymentController implements PaymentServiceApi {
             response.setUserId(dto.getUser().getId());
             return response;
         }).collect(Collectors.toList());
+
+        return new PageResponse<>(result, page.getTotalElements());
+    }
+
+    @Override
+    @PostMapping("/count/value")
+    public Long countPaymentValue(@RequestBody PaymentFilterRequest request) {
+        if (request.getUserId() == null) {
+            throw new ValidationException("Empty userId");
+        }
+
+        PaymentFilter filter = PaymentFilter.builder()
+                .dateFrom(request.getDateFrom())
+                .dateTo(request.getDateTo())
+                .userId(request.getUserId())
+                .build();
+
+        return paymentService.countPaymentValue(filter);
     }
 }

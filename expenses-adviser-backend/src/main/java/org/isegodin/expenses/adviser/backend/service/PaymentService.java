@@ -1,9 +1,9 @@
 package org.isegodin.expenses.adviser.backend.service;
 
 import org.isegodin.expenses.adviser.backend.data.dto.PaymentDto;
-
-import java.util.List;
-import java.util.UUID;
+import org.isegodin.expenses.adviser.backend.data.filter.PaymentFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * @author isegodin
@@ -12,5 +12,7 @@ public interface PaymentService {
 
     PaymentDto save(PaymentDto dto);
 
-    List<PaymentDto> listUserPayments(UUID userId);
+    Page<PaymentDto> listPayments(PaymentFilter filter, PageRequest pageRequest);
+
+    Long countPaymentValue(PaymentFilter filter);
 }
