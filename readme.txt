@@ -4,6 +4,7 @@ Heroku Configuration
 Add env variables:
     GRADLE_TASK = buildBackend
     START_SCRIPT = expenses-adviser-backend/start.sh
+    BACKEND_ACCESS_TOKEN = <token for backend>
 
 2) expenses-adviser-telegram-bot
 Add env variables:
@@ -11,3 +12,4 @@ Add env variables:
     START_SCRIPT = expenses-adviser-telegram-bot/start.sh
     BACKEND_URL = https://expenses-adviser-backend.herokuapp.com
     TOKEN = <telegram bot token>
+    BACKEND_ACCESS_TOKEN = <token for backend>
