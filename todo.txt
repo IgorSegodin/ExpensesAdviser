@@ -4,4 +4,18 @@ Done: save all incoming updates to database
 
 Done: status rest (Jetty)
 
-Expenses service
+Done: Expenses service
+
+Should not fail when backend is offline
+
+Heroku hibernate mode (telegram event mode instead of long polling)
+
+User firstName, lastName - optional
+
+Count total correctly (income=true)
+
+Group by tags (tag dictionary ?)
+
+Import xls (for CRUD)
+
+Export xls (with filter)
